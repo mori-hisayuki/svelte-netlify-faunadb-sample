@@ -1,5 +1,5 @@
 {
-  "name": "svelte-app",
+  "name": "svelte-netlify-faunadb-sample",
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
@@ -14,9 +14,10 @@
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "svelte": "^3.18.2",
+    "typescript": "^3.7.5"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.5"
   }
 }
