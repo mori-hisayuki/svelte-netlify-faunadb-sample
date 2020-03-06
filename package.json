@@ -1,9 +1,10 @@
 {
   "name": "svelte-app",
   "version": "1.0.0",
+  "main": "src/main.ts",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "rm -rf ./dist && rollup -c -w",
     "start": "sirv public"
   },
   "devDependencies": {
@@ -12,9 +13,13 @@
     "netlify-cli": "^2.33.0",
     "rollup": "^1.20.0",
     "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-postcss": "^2.2.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "rollup-plugin-typescript2": "^0.26.0",
+    "svelte": "^3.0.0",
+    "svelte-preprocess": "^3.4.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "sirv-cli": "^0.4.4"
