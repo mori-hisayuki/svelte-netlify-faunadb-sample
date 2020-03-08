@@ -1,11 +1,13 @@
 <script lang="ts">
-  const a: string = "Svelte",
-    b: string = "Typescript",
-	c: string = "Rollup";
+  const svelte: string = "Svelte";
+  const b: string = "Typescript";
+	const c: string = "Rollup";
 </script>
 <template lang="pug">
+- var cssName = "./App.scss"
+	style(src=cssName)
 	main
-		h1.test Hello {a} + {b} +{c}!
+		h1.test Hello {svelte} + {b} +{c}!
 		p Visit the to learn how
 			|
 			|
@@ -13,25 +15,3 @@
 			|
 			| to build Svelte apps.
 </template>
-
-<style lang="css">
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
