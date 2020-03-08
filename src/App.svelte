@@ -1,13 +1,18 @@
 <script lang="ts">
   const a: string = "Svelte",
     b: string = "Typescript",
-    c: string = "Rollup";
+	c: string = "Rollup";
 </script>
-
-<main>
-	<h1>Hello {a} + {b} +{c}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<template lang="pug">
+	main
+		h1.test Hello {a} + {b} +{c}!
+		p Visit the to learn how
+			|
+			|
+			a(href="https://svelte.dev/tutorial") Svelte tutorial
+			|
+			| to build Svelte apps.
+</template>
 
 <style lang="css">
 	main {
