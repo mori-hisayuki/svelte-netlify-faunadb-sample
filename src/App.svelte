@@ -52,7 +52,7 @@
 </script>
 <template lang="pug">
 - var cssName = "./App.scss"
-	style(src=cssName)
+style(src=cssName)
 main
 	div.board
 		input(class="new-todo",placeholder="what needs to be done?", on:keydown!="{event => event.which === 13 && addTask(event.target)}")
