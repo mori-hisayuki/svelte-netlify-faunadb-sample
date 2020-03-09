@@ -21,11 +21,14 @@ export default {
 	plugins: [
 		svelte({
 			dev: !production,
-			css: css => {
-				css.write('public/build/bundle.css');
-			},
 			extensions: [".svelte"],
-			preprocess: sveltePreprocessor(),
+			css: css => {
+                css.write('public/css/bundle.css');
+            },
+            // 下記追加
+            preprocess: sveltePreprocessor({
+                scss: true
+            }),
 			emitCss: true,
 		}),
 		resolve({

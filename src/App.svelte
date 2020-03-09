@@ -1,32 +1,73 @@
 <script lang="ts">
-  const a: string = "Svelte",
-    b: string = "Typescript",
-    c: string = "Rollup";
-</script>
+	import { quintOut } from 'svelte/easing';
+	import { crossfade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
-<main>
-	<h1>Hello {a} + {b} +{c}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style lang="css">
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	type Task = {
+		id: number
+		done: boolean
+		description: string
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+	const [send, receive] = crossfade({
+		fallback(node :Element, params: any): CrossfadeParams {
+			const style: CSSStyleDeclaration = getComputedStyle(node);
+			const transform: String = style.transform === 'none' ? '' : style.transform;
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
+			return {
+				duration: 600,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
 		}
+	});
+
+	let todos: Array<Task> = [
+		{ id: 1, done: false, description: 'write some docs' },
+		{ id: 2, done: false, description: 'start writing JSConf talk' },
+		{ id: 3, done: true, description: 'buy some milk' },
+		{ id: 4, done: false, description: 'mow the lawn' },
+		{ id: 5, done: false, description: 'feed the turtle' },
+		{ id: 6, done: false, description: 'fix some bugs' },
+	];
+
+	let uid: number = todos.length + 1;
+
+	function addTask(inputElement: any) {
+		const todo: Task = {
+			id: uid++,
+			done: false,
+			description: inputElement.value
+		}
+		todos = [todo, ...todos];
 	}
-</style>
+
+	function removeTask(todo) {
+		todos = todos.filter(t => t !== todo);
+	}
+
+</script>
+<template lang="pug">
+- var cssName = "./App.scss"
+style(src=cssName)
+main
+	div.board
+		input(class="new-todo",placeholder="what needs to be done?", on:keydown!="{event => event.which === 13 && addTask(event.target)}")
+		div.left
+			h2 todo
+			+each('todos.filter(task => !task.done) as todo')
+				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
+					input(type="checkbox",bind:checked!="{todo.done}")
+					| {todo.description}
+					button(on:click!="{() => removeTask(todo)}") x
+		div.right
+			h2 done
+			+each('todos.filter(task => task.done) as todo')
+				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
+					input(type="checkbox",bind:checked!="{todo.done}")
+					| {todo.description}
+					button(on:click!="{() => removeTask(todo)}") x
+</template>
