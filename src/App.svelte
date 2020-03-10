@@ -36,34 +36,36 @@
 
 	let uid: number = todos.length + 1;
 
-	function addTask(inputElement: any) {
+	function addTask(inputElement: HTMLInputElement) {
+
 		const todo: Task = {
 			id: uid++,
 			done: false,
 			description: inputElement.value
 		}
 		todos = [todo, ...todos];
+		inputElement.value = '';
 	}
 
-	function removeTask(todo) {
+	function removeTask(todo: Task) {
 		todos = todos.filter(t => t !== todo);
 	}
 
 </script>
 <template lang="pug">
-- var cssName = "./App.scss"
+- var cssName = "./App.sass"
 style(src=cssName)
 main
 	div.board
 		input(class="new-todo",placeholder="what needs to be done?", on:keydown!="{event => event.which === 13 && addTask(event.target)}")
-		div.left
+		div.task.left
 			h2 todo
 			+each('todos.filter(task => !task.done) as todo')
 				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
 					input(type="checkbox",bind:checked!="{todo.done}")
 					| {todo.description}
 					button(on:click!="{() => removeTask(todo)}") x
-		div.right
+		div.task.right
 			h2 done
 			+each('todos.filter(task => task.done) as todo')
 				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
