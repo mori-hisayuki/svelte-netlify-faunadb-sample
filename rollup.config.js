@@ -2,6 +2,7 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
+import html from "rollup-plugin-bundle-html"
 import { terser } from 'rollup-plugin-terser';
 import postcss from "rollup-plugin-postcss"
 import typescript from "rollup-plugin-typescript2"
@@ -16,32 +17,30 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: './dist/js/bundle.js'
 	},
 	plugins: [
 		svelte({
 			dev: !production,
-			extensions: [".svelte"],
 			css: css => {
-                css.write('public/css/bundle.css');
-            },
-            // 下記追加
-            preprocess: sveltePreprocessor({
-                scss: true
-            }),
-			emitCss: true,
+                css.write('./dist/css/bundle.css', false);
+			},
+			preprocess: sveltePreprocessor(),
+			emitCss: false
 		}),
-		resolve({
-			browser: true,
-			dedupe: ['svelte']
+		html({
+			template: "src/index.html",
+			dest: "dist",
+			filename: "index.html"
 		}),
+		resolve(),
 		postcss({
 			extract: true
 		}),
 		typescript({ typescript: typescriptCompiler }),
 		commonjs(),
 		!production && serve(),
-		!production && livereload('public'),
+		!production && livereload({ watch: "./dist" }),
 		production && terser()
 	],
 	watch: {
