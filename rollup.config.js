@@ -33,11 +33,8 @@ export default {
 			dest: "dist",
 			filename: "index.html"
 		}),
-		resolve(),
-		postcss({
-			extract: true
-		}),
 		typescript({ typescript: typescriptCompiler }),
+		resolve(),
 		commonjs(),
 		!production && serve(),
 		!production && livereload({ watch: "./dist" }),
