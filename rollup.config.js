@@ -8,6 +8,7 @@ import postcss from "rollup-plugin-postcss"
 import typescript from "rollup-plugin-typescript2"
 import typescriptCompiler from "typescript"
 import sveltePreprocessor from "svelte-preprocess"
+import autoprefixer from 'autoprefixer';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -22,16 +23,21 @@ export default {
 	plugins: [
 		svelte({
 			dev: !production,
-			css: css => {
-                css.write('./dist/css/bundle.css', false);
-			},
+			css: false,
 			preprocess: sveltePreprocessor(),
-			emitCss: false
+			emitCss: true
 		}),
 		html({
 			template: "src/index.html",
 			dest: "dist",
 			filename: "index.html"
+		}),
+		postcss({
+			extract: './dist/css/bundle.css',
+			sourceMap: true,
+			plugins: [
+				autoprefixer()
+			]
 		}),
 		typescript({ typescript: typescriptCompiler }),
 		resolve(),
