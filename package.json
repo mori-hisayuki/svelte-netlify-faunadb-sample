@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "main": "src/main.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf ./dist && rollup -c",
     "dev": "rm -rf ./dist && rollup -c -w",
-    "start": "sirv public"
+    "start": "sirv dist"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
+    "autoprefixer": "^9.7.4",
+    "dotenv": "^8.2.0",
     "netlify-cli": "^2.33.0",
     "node-sass": "^4.13.1",
     "pug": "^2.0.4",
     "rollup": "^1.20.0",
+    "rollup-plugin-bundle-html": "^0.2.2",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-postcss": "^2.2.0",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.26.0",
