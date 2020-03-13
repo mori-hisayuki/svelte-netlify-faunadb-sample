@@ -25,6 +25,7 @@
     "rollup-plugin-typescript2": "^0.26.0",
     "sass": "^1.26.2",
     "svelte": "^3.0.0",
+    "svelte-material-ui": "^1.0.0-beta.20",
     "svelte-preprocess": "^3.4.0",
     "typescript": "^3.8.3"
   },
