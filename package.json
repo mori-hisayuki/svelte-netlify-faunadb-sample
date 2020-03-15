@@ -14,7 +14,6 @@
     "dotenv": "^8.2.0",
     "netlify-cli": "^2.33.0",
     "node-sass": "^4.13.1",
-    "pug": "^2.0.4",
     "rollup": "^1.20.0",
     "rollup-plugin-bundle-html": "^0.2.2",
     "rollup-plugin-livereload": "^1.0.0",

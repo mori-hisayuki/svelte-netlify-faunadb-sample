@@ -28,6 +28,14 @@ const plugins = [
 	postcss({
 		extract: './dist/css/bundle.css',
 		sourceMap: true,
+		use: [
+			['sass', {
+			  includePaths: [
+				'./theme',
+				'./node_modules'
+			  ]
+			}]
+		  ],
 		plugins: [
 			autoprefixer()
 		]

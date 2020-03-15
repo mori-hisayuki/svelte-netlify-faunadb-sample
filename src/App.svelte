@@ -2,15 +2,20 @@
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import Textfield from '@smui/textfield';
+	import Card, {PrimaryAction} from '@smui/card';
+	import Button, {Label} from '@smui/button';
 
 	type Task = {
-		id: number
-		done: boolean
-		description: string
+		id: number;
+		done: boolean;
+		description: string;
 	}
+
 
 	const [send, receive] = crossfade({
 		fallback(node, params) {
+			console.log(node);
 			const style: CSSStyleDeclaration = getComputedStyle(node);
 			const transform: String = style.transform === 'none' ? '' : style.transform;
 
@@ -35,16 +40,21 @@
 	];
 
 	let uid: number = todos.length + 1;
+	let taskText: string = '';
 
-	function addTask(inputElement: HTMLInputElement) {
-
+	function addTask() {
 		const todo: Task = {
 			id: uid++,
 			done: false,
-			description: inputElement.value
+			description: taskText
 		}
 		todos = [todo, ...todos];
-		inputElement.value = '';
+		taskText = '';
+	}
+
+	function doneTask(todo: Task) {
+		todo.done = !todo.done;
+		console.log(todo);
 	}
 
 	function removeTask(todo: Task) {
@@ -52,24 +62,29 @@
 	}
 
 </script>
-<template lang="pug">
-- var cssName = "./App.sass"
-style(src=cssName)
-main
-	div.board
-		input(class="new-todo",placeholder="what needs to be done?", on:keydown!="{event => event.which === 13 && addTask(event.target)}")
-		div.task.left
-			h2 todo
-			+each('todos.filter(task => !task.done) as todo')
-				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
-					input(type="checkbox",bind:checked!="{todo.done}")
-					| {todo.description}
-					button(on:click!="{() => removeTask(todo)}") x
-		div.task.right
-			h2 done
-			+each('todos.filter(task => task.done) as todo')
-				label(in:receive="{{key: todo.id}}", out:send="{{key: todo.id}}")
-					input(type="checkbox",bind:checked!="{todo.done}")
-					| {todo.description}
-					button(on:click!="{() => removeTask(todo)}") x
-</template>
+<style src="./App.sass"></style>
+<main>
+    <div class="board">
+    <Textfield variant="outlined" bind:value="{taskText}" label="what needs to be done?" on:keydown="{event => event.which === 13 && addTask()}" style="width: 100%;"/>
+    <div class="task left">
+        <h2>todo</h2>
+        {#each todos.filter(task => !task.done) as todo (todo.id)}
+            <label in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip>
+                <input type="checkbox" bind:checked="{todo.done}">
+                {todo.description}
+                <button on:click="{() => removeTask(todo)}">x</button>
+            </label>
+        {/each}
+    </div>
+    <div class="task right">
+        <h2>done</h2>
+        {#each todos.filter(task => task.done) as todo (todo.id)}
+            <label in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip>
+                <input type="checkbox" bind:checked="{todo.done}">
+                {todo.description}
+                <button on:click="{() => removeTask(todo)}">x</button>
+            </label>
+        {/each}
+    </div>
+</div>
+</main>
